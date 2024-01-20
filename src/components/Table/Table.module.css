@@ -1,0 +1,51 @@
+.table {
+  font-family: arial, sans-serif;
+  overflow:auto;
+  width: 100vw;
+  white-space: nowrap;
+  border-collapse:collapse;
+  margin: auto;
+  table-layout: auto;
+
+ 
+}
+
+td, th {
+  border: 1px solid #828282;
+  text-align: left;
+  padding: 8px;
+}
+thead{
+ 
+  background-color: #dddddd;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.container{
+  width: 100%;
+}
+.cb{
+  text-align: center;
+}
+
+.quantity{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.increment, .decrement{
+  text-decoration: none;
+  border: none;
+  background-color: transparent;
+  font-size: 25px;
+}
+.decrement{
+  font-size: 30px;
+}
+.table2{
+  width: 100%
+}
