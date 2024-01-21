@@ -1,7 +1,7 @@
 .table {
   font-family: arial, sans-serif;
   overflow:auto;
-  width: 100vw;
+  width: 100%;
   white-space: nowrap;
   border-collapse:collapse;
   margin: auto;
@@ -46,6 +46,4 @@ tr:nth-child(even) {
 .decrement{
   font-size: 30px;
 }
-.table2{
-  width: 100%
-}
+
