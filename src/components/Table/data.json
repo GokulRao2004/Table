@@ -8,17 +8,17 @@
       },
       {
         "id": 2,
-        "product": "Product B",
+        "product": "Prodgfghfgfgfghfhgfhguct B",
         "quantity": 10,
         "due": false,
         "rate": 12.50
       },
       {
         "id": 3,
-        "product": "Prodwefewfdsfdsf sdfsd fds dffghfgh fgh ydhjuct C",
+        "product": "Product C",
         "quantity": 2,
         "due": false,
-        "rate": 233345345345.75
+        "rate": 2375
       },
       {
         "id": 4,
@@ -70,5 +70,3 @@
         "rate": 17.95
       }
     ]
-
-  

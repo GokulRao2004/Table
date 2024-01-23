@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import styles from './Table.module.css';
 import data from './data.json';
+import {Payment} from '../payment/Payment'
 
 export const Table = () => {
-
     const [prods,setProds] = useState(data);
+
+
 
     const handleCheckboxChange = (productId) => {
         setProds((prevProducts) =>
@@ -28,9 +30,31 @@ export const Table = () => {
           )
         );
     };
+    const handleQuantityChange = (productId, newQuantity) => {
+      setProds((prevProducts) =>
+        prevProducts.map((product) =>
+          product.id === productId ? { ...product, quantity: newQuantity } : product
+        )
+      );
+    };
+
+    const calculateTotalNoDue = () => {
+      return prods.reduce((total, product) => {
+        return total + product.quantity * product.rate;
+      }, 0);
+    };
+
+    const calculateTotalDue = () => {
+      return prods.reduce((total, product) => {
+        return total + (product.due ? 0 : product.quantity * product.rate);
+      }, 0);
+    };
+
   return (
+  <div>
+     <h2>Products</h2>
     <div className={styles.container}>
-        <h2>Products</h2>
+       
         <table className={styles.table}>
             <thead>
                 <tr>
@@ -38,6 +62,7 @@ export const Table = () => {
                     <th>QTY</th>
                     <th>DUE</th>
                     <th>RATE</th>
+                    <th>TOTAL</th>
                     
                 </tr>
             </thead>
@@ -48,31 +73,27 @@ export const Table = () => {
                             <td className={styles.expand}>{prod.product}</td>
                             <td className={styles.quantity}>
                                     <button className={styles.decrement} onClick={() => handleDecrement(prod.id)}>-</button>
-                                    <div className={styles.count}>{prod.quantity}</div>
+                                    <input
+                                      className={styles.input}
+                                        type='number'
+                                        value={prod.quantity}
+                                        min={1}
+                                        onChange={(e) => handleQuantityChange(prod.id, parseInt(e.target.value, 10) || 0)}
+                                      />
                                     <button className={styles.increment}onClick={() => handleIncrement(prod.id)}>+</button>
                             </td>
                             <td className={styles.cb}><input type="checkbox" checked={prod.due} onChange={() => handleCheckboxChange(prod.id)} /> </td>
                             <td>{prod.rate}</td>
-                        
-                            
+                            <td > <input className={styles.tot} value = {prod.quantity * prod.rate} /></td>
                         </tr>
                     ))
                 }
-                
             </tbody>
-        </table>
-        {/* <h2>Return/Expired</h2> */}
-        {/* <table className={styles.table2}>
-            <thead>
-                <tr>
-                    <th>PRODUCT</th>
-                    <th>QTY</th>
-                    <th>RATE</th>
-                    
-                </tr>
-            </thead>
-        </table> */}
+        </table></div>
+        <div>Total Without Due: {calculateTotalNoDue()}</div>
+        <div>Total With Due: {calculateTotalDue()}</div>
+        <Payment noDue = {calculateTotalNoDue()} due={calculateTotalDue()} />
+    
     </div>
-
   )
 }
