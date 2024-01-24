@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import styles from "./Table2.module.css";
-import data from './data1.json'; // Import JSON data directly
+import data1 from './data1.json'; // Import JSON data directly
 import { Modal } from '../Modal/Modal';
 
 export const Table2 = () => {
-  const [prods, setProds] = useState(data);
+  const [rProds, setRProds] = useState(data1);
   const [modalOpen, setmodalOpen] = useState(false);
 
   const handleIncrement = (productId) => {
-    setProds((prevProducts) =>
+    setRProds((prevProducts) =>
       prevProducts.map((product) =>
         product.id === productId ? { ...product, quantity: product.quantity + 1 } : product
       )
@@ -16,7 +16,7 @@ export const Table2 = () => {
   };
 
   const handleDecrement = (productId) => {
-    setProds((prevProducts) =>
+    setRProds((prevProducts) =>
       prevProducts.map((product) =>
         product.id === productId && product.quantity > 0 ? { ...product, quantity: product.quantity - 1 } : product
       )
@@ -24,20 +24,20 @@ export const Table2 = () => {
   };
 
   const handleQuantityChange = (productId, newQuantity) => {
-    setProds((prevProducts) =>
+    setRProds((prevProducts) =>
       prevProducts.map((product) =>
         product.id === productId ? { ...product, quantity: newQuantity } : product
       )
     );
   };
   const handleDelete = (productId) => {
-    setProds((prevProducts) =>
+    setRProds((prevProducts) =>
       prevProducts.filter((product) => product.id !== productId)
     );
   };
 
   const handleSubmit = (newRow) =>{
-    setProds([...prods, newRow])
+    setRProds([...rProds, newRow])
   }
 
 
@@ -56,7 +56,7 @@ export const Table2 = () => {
           </tr>
         </thead>
         <tbody>
-          {prods.map((prod) => (
+          {rProds.map((prod) => (
             <tr key={prod.id}>
               <td className={styles.expand}>{prod.product}</td>
               <td className={styles.quantity}>

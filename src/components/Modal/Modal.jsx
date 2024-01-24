@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 
 export const Modal = ({closeModal, onSubmit}) => {
     const [formState,setFormState] = useState({
+        id: generateUniqueId(), 
         product : "",
         quantity : "",
         rate : "",
@@ -23,6 +24,10 @@ export const Modal = ({closeModal, onSubmit}) => {
         closeModal()
       };
 
+      function generateUniqueId() {
+        return Math.floor(Math.random() * 1000000);
+      }
+
 
   return (
     <div className={styles.container} id='close' onClick={(e) => {
@@ -37,7 +42,7 @@ export const Modal = ({closeModal, onSubmit}) => {
                 </div>
                 <div className={styles.formGrp}>
                     <label htmlFor='quantity'>Quantity</label>
-                    <input name='quantity' type='number' min={1} value={formState.quantity} onChange={handleChange}/>
+                    <input name='quantity' type='number'  value={formState.quantity} onChange={handleChange}/>
                 </div>
                 <div className={styles.formGrp}>
                     <label htmlFor='rate'>Rate</label>

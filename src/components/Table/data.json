@@ -1,70 +1,70 @@
 [
       {
         "id": 1,
-        "product": "Product A",
+        "product": "Product A A very big description for multi line",
         "quantity": 5,
         "due": false,
         "rate": 25.99
       },
       {
         "id": 2,
-        "product": "Prodgfghfgfgfghfhgfhguct B",
+        "product": "Product B A very big description for multi line",
         "quantity": 10,
         "due": false,
         "rate": 12.50
       },
       {
         "id": 3,
-        "product": "Product C",
+        "product": "Product C A very big description for multi line",
         "quantity": 2,
         "due": false,
-        "rate": 2375
+        "rate": 230075.05
       },
       {
         "id": 4,
-        "product": "Product D",
+        "product": "Product D A very big description for multi line",
         "quantity": 8,
         "due": false,
         "rate": 19.99
       },
       {
         "id": 5,
-        "product": "Product E",
+        "product": "Product E A very big description for multi line",
         "quantity": 15,
         "due": false,
         "rate": 8.95
       },
       {
         "id": 6,
-        "product": "Product F",
+        "product": "Product F A very big description for multi line",
         "quantity": 3,
         "due": false,
         "rate": 33.25
       },
       {
         "id": 7,
-        "product": "Product G",
+        "product": "Product G A very big description for multi line",
         "quantity": 7,
         "due": false,
         "rate": 14.75
       },
       {
         "id": 8,
-        "product": "Product H",
+        "product": "Product H A very big description for multi line",
         "quantity": 12,
         "due": false,
         "rate": 9.99
       },
       {
         "id": 9,
-        "product": "Product I",
+        "product": "Product I A very big description for multi line",
         "quantity": 4,
         "due": false,
         "rate": 28.50
       },
       {
         "id": 10,
-        "product": "Product J",
+        "product": "Product J A very big description for multi line",
         "quantity": 6,
         "due": false,
         "rate": 17.95
