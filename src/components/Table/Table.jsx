@@ -61,8 +61,11 @@ export const Table = () => {
       const totalWithDue = prods.reduce((total, product) => {
         return Math.round((total + (product.due ? 0 : product.quantity * product.rate))*100)/100;
       }, 0);
+      const totalFromReturns = rProds.reduce((total, product) => {
+        return total + product.quantity * product.rate;
+      }, 0);
     
-      return totalWithDue;
+      return totalWithDue - totalFromReturns;
     };
     
  
