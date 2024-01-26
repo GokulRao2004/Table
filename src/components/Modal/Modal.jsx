@@ -37,7 +37,7 @@ export const Modal = ({closeModal, onSubmit}) => {
         <div className={styles.modal}>
             <form className={styles.form} >
                 <div className={styles.formGrp}>
-                    <label htmlFor='name'>Product Name : </label>
+                    <label htmlFor='name'>Product Name </label>
                     <input name='product' value={formState.product} onChange={handleChange}/>
                 </div>
                 <div className={styles.formGrp}>

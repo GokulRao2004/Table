@@ -1,4 +1,7 @@
-[
+{
+  "billItems":
+  [
+
       {
         "id": 1,
         "product": "Product A A very big description for multi line",
@@ -69,4 +72,13 @@
         "due": false,
         "rate": 17.95
       }
-    ]
+    ],
+
+  "clientDetails":
+    {
+      "name":"Client A",
+      "Bill No" : "#223123",
+      "Bill Date" : "12/11/2024"
+  }
+  
+  }

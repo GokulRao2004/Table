@@ -7,7 +7,7 @@ import {Modal} from '../Modal/Modal'
 import { getImageUrl } from '../../utils';
 
 export const Table = () => {
-    const [prods,setProds] = useState(data);
+    const [prods,setProds] = useState(data.billItems);
     const [rProds, setRProds] = useState(data1);
     const [modalOpen, setmodalOpen] = useState(false);
     
@@ -102,19 +102,28 @@ export const Table = () => {
     };
 
   return (
-  <div>
-    <div className={styles.head}>
-      <p>Client Name : A Client</p>
-      <p>Bill Number : #12334</p>
-      <p>Date : 12/12/2024</p>
-    </div>
-     <h2>Products</h2>
+  <div >
+    <header className={styles.head}>
+      <div>
+      <h2>S L N & CO</h2>
+      
+      </div>
+      <div className={styles.client}>
+        <div>
+          <p>Billed To: {data.clientDetails.name}</p>
+          <p>{data.clientDetails['Bill No']}</p>
+        </div>
+        <p className={styles.date}>Date : {data.clientDetails['Bill Date']}</p>
+      </div>
+      
+    </header>
+     <h2 className={styles.Title}>Description</h2>
     <div className={styles.container}>
        
         <table className={styles.table}>
             <thead>
                 <tr>
-                    <th className={styles.product}>PRODUCT</th>
+                    <th className={styles.expand}>PRODUCT</th>
                     <th>QTY</th>
                     <th>DUE</th>
                     <th>RATE</th>
@@ -139,8 +148,8 @@ export const Table = () => {
                                     <button className={styles.increment}onClick={() => handleIncrement(prod.id)}>+</button>
                             </td>
                             <td className={styles.cb}><input type="checkbox" checked={prod.due} onChange={() => handleCheckboxChange(prod.id)} /> </td>
-                            <td>{prod.rate}</td>
-                            <td > <input className={styles.tot} value = {Math.round( prod.quantity* prod.rate* 100) / 100} disabled/></td>
+                            <td className={styles.rate}>{prod.rate}</td>
+                            <td className={styles.total}> {Math.round( prod.quantity* prod.rate* 100) / 100} </td>
                         </tr>
                     ))
                 }
@@ -149,13 +158,13 @@ export const Table = () => {
         
         </div>
         <div>
-      <h2>Expiry/Returns</h2>
+      <h2 className={styles.Title}>Expiry/Returns</h2>
     <div className={styles.container}>
       
       <table className={styles.table}>
         <thead>
           <tr>
-            <th className={styles.product}>PRODUCT</th>
+            <th className={styles.expand}>PRODUCT</th>
             <th>QTY</th>
             <th>RATE</th>
             <th>TOTAL</th>
@@ -177,10 +186,10 @@ export const Table = () => {
                   />
                 <button className={styles.increment} onClick={() => handleIncrement1(prod.id)}>+</button>
               </td>
-              <td>{prod.rate}</td>
-              <td > <input className={styles.tot} value = {Math.round(prod.quantity * prod.rate * 100)/100} /></td>
-              <td>
-                  <button className={styles.deletebtn} onClick={() => handleDelete(prod.id)}><img className={styles.delete} src={getImageUrl('delete.png')}/></button>
+              <td className={styles.rate}>{prod.rate}</td>
+              <td className={styles.total}> {Math.round(prod.quantity * prod.rate * 100)/100}</td>
+              <td className={styles.delete}>
+                  <button className={styles.deletebtn} onClick={() => handleDelete(prod.id)}><img className={styles.deleteImg} src={getImageUrl('delete.png')}/></button>
                 </td>
             </tr>
           ))}
@@ -188,7 +197,8 @@ export const Table = () => {
       </table>
     </div>
     <button className='btn' onClick={() => setmodalOpen(true)}>Add</button>
-     {modalOpen && <Modal 
+     {modalOpen && 
+     <Modal 
         closeModal = {()=>{
           setmodalOpen(false);
         }}
@@ -196,9 +206,6 @@ export const Table = () => {
       
      />}
         </div>
-
-        <div>Total Without Due: {calculateTotalNoDue()}</div>
-        <div>Total With Due: {calculateTotalDue()}</div>
         <Payment noDue = {calculateTotalNoDue()} due={calculateTotalDue()} />
     
     </div>

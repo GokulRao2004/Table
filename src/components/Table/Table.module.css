@@ -1,19 +1,15 @@
+@import url(../../vars.css);
 .container{
   width: 100%;
   overflow-x:auto;
-
-}
-
-table{
-  font-family: arial, sans-serif;
-  border-collapse:collapse;
-  width:100%;
+  box-sizing: content-box;
 }
 
 .head{
   display: flex;
-  flex-direction: row;
-  background-color: lightblue;
+  flex-direction: column;
+  margin: 0;
+  background-color: var(--color-bg2);
   justify-content: space-between;
   padding-left: 20px;
   padding-right: 20px;
@@ -21,23 +17,75 @@ table{
   padding-bottom: 30px;
 }
 
+.head h2{
+  font-size: 50px;
+  padding: 0;
+  margin: 0;
+}
+
+.client{
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  font-size: 18px;
+  font-weight: 500;
+  gap: 5px;
+  padding-bottom: 0;
+  justify-content: space-between;
+}
+
+.date{
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.Title{
+  text-decoration: underline;
+  padding: 10px;
+  text-align: center;
+  align-content: center;
+}
+
+table{
+  width: 98%;
+  margin: 8px;
+  align-content: center;
+  font-family: arial, sans-serif;
+  border-collapse:collapse;
+  border:1px solid black;
+}
+
 td, th {
-  border: 1px solid #828282;
+  /* border: 1px solid #828282;
+  border-top: none;
+  border-bottom: none; */
   text-align: left;
   padding: 8px;
+  text-align: left;
 }
+
+.expand{
+  text-align: left;
+  min-width: 200px;
+  max-width: 200px;
+}
+
 thead{
-
-  background-color: lightblue;
+  text-align: center;
+  border: 1px solid #828282;
+  background-color: var(--color-bg2);
 }
 
-tr:nth-child(even) {
-  background-color: #dddddd;
+th{
+  text-align: center;
 }
 
-.container{
-  width: 100%;
+.rate,.total{
+  text-align: right;
 }
+
+
 .cb{
   text-align: center;
 }
@@ -66,6 +114,7 @@ tr:nth-child(even) {
 }
 
 .input{
+  text-align: center;
 width: 4ch; /* Set the width to approximately 10 characters */
 background: transparent;
 -webkit-appearance: none; /* Safari and Chrome */
@@ -74,7 +123,7 @@ appearance: none; /* Standard */
 border: none;
 }
 
-.delete{
+.deleteImg{
 width: 20px;
 }
 
@@ -84,16 +133,13 @@ background: none;
 border: none;
 }
 
-.tot{
-  width: 9ch; /* Set the width to approximately 10 characters */
-background: transparent;
--webkit-appearance: none; /* Safari and Chrome */
--moz-appearance: none; /* Firefox */
-appearance: none; /* Standard */
-border: none;
+.delete{
+  display: flex;
+  justify-content: center;
+  align-content: center;
 }
 
-.product{
-  min-width: 200px;
-  max-width: 200px;
+.tot{
+  width: 9ch; 
+border: none;
 }

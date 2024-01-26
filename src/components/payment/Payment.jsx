@@ -1,4 +1,5 @@
-import React,{useState} from 'react'
+import React,{useState} from 'react';
+import styles from './Payment.module.css'
 
 export const Payment = ({noDue,due}) => {
   const [selectedPercentage, setSelectedPercentage] = useState(0);
@@ -61,7 +62,7 @@ export const Payment = ({noDue,due}) => {
                 <option value="none">NONE</option>
             </select>
             {renderPartialPaymentTextBox()}
-            <button className="submit" >SUBMIT</button>
+            <button className={styles.btn} >SUBMIT</button>
             
         </div>
     </form>

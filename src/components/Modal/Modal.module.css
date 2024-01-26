@@ -9,17 +9,24 @@
     align-items: center;
     justify-content: center;
     background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+    
 }
 
 .modal{
+    margin-left: 10px;
+    margin-right: 10px;
     border-radius: 5px;
     padding: 2rem;
-    background-color: #fff;
-    width: 25em;
+    background-color: rgba(34, 34, 34, 0.8); /* Dark grey with 80% opacity */
+    color: #fff;
+    backdrop-filter: blur(10px);
+    width: 23em;
 }
 
-.modal .btn{
-    display: block;
+.btn{
+    display: flex;
+    align-content: center;
     margin: auto;
     margin-top: 1rem;
     border: none;
@@ -28,8 +35,8 @@
     color: #fff;
     border-radius:10px ;
     cursor: pointer;
-    box-shadow: 0 5px 5px #ccc;
 }
+
 
 .formGrp{
     display: flex;
@@ -46,4 +53,5 @@
 
 .formGrp label{
     font-size: 25px;
+    text-align: center;
 }
