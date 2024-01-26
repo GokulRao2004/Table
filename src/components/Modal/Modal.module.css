@@ -18,7 +18,7 @@
     margin-right: 10px;
     border-radius: 5px;
     padding: 2rem;
-    background-color: rgba(34, 34, 34, 0.8); /* Dark grey with 80% opacity */
+    background-color: rgba(0, 0, 0, 0.1); /* Dark grey with 80% opacity */
     color: #fff;
     backdrop-filter: blur(10px);
     width: 23em;

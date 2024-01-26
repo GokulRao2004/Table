@@ -5,6 +5,7 @@ import data from './data.json';
 import {Payment} from '../payment/Payment'
 import {Modal} from '../Modal/Modal'
 import { getImageUrl } from '../../utils';
+import { Line } from '../Line/Line';
 
 export const Table = () => {
     const [prods,setProds] = useState(data.billItems);
@@ -117,6 +118,7 @@ export const Table = () => {
       </div>
       
     </header>
+    < Line/>
      <h2 className={styles.Title}>Description</h2>
     <div className={styles.container}>
        
@@ -155,9 +157,11 @@ export const Table = () => {
                 }
             </tbody>
         </table>
+        {/* <div>{calculateTotalDue()}</div>
+        <div>{calculateTotalNoDue()}</div> */}
         
         </div>
-        <div>
+        <div><Line/>
       <h2 className={styles.Title}>Expiry/Returns</h2>
     <div className={styles.container}>
       
@@ -171,7 +175,7 @@ export const Table = () => {
             <th>DELETE</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody> 
           {rProds.map((prod) => (
             <tr key={prod.id}>
               <td className={styles.expand}>{prod.product}</td>
@@ -195,6 +199,7 @@ export const Table = () => {
           ))}
         </tbody>
       </table>
+     
     </div>
     <button className='btn' onClick={() => setmodalOpen(true)}>Add</button>
      {modalOpen && 
@@ -206,6 +211,7 @@ export const Table = () => {
       
      />}
         </div>
+        < Line />
         <Payment noDue = {calculateTotalNoDue()} due={calculateTotalDue()} />
     
     </div>

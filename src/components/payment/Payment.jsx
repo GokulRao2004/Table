@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
-import styles from './Payment.module.css'
+import styles from './Payment.module.css';
+import { Line } from '../Line/Line';
 
 export const Payment = ({noDue,due}) => {
   const [selectedPercentage, setSelectedPercentage] = useState(0);
@@ -26,10 +27,12 @@ export const Payment = ({noDue,due}) => {
   const renderPartialPaymentTextBox = () => {
     if (selectedPaymentOption === 'partial') {
       return (
-        <>
-          <h2>Partial Payment Amount</h2>
-          <input type="text" placeholder="Enter partial payment amount" />
-        </>
+        <div className={styles.payPartial}>
+          
+            <>Amount Payed : </>
+            <input type="number" min={1} placeholder="Enter amount" />
+      
+        </div>
       );
     }
     return null;
@@ -38,8 +41,9 @@ export const Payment = ({noDue,due}) => {
   return (
     <form>
         <div>
-            <h2>Cash Discount</h2>
-            <select id="dropdown" name="dropdown" onChange={handleDropdownChange} value={selectedPercentage}>
+          <div className={styles.cd}>
+            <>Cash Discount : </>
+            <select id="dropdown" className={styles.dropdown} onChange={handleDropdownChange} value={selectedPercentage}>
                 <option value={0}>0%</option>
                 <option value={0.5}>0.5%</option>
                 <option value={1}>1%</option>
@@ -49,21 +53,28 @@ export const Payment = ({noDue,due}) => {
                 <option value={3}>3%</option>
                 <option value={3.5}>3.5%</option>
             </select>
+           
+          </div> <Line/>
+          <div className={styles.amount}>
             <h2>Total Amount</h2>
-            <label for="With">With Due</label>
-            <input type='text' value={due - cashDisc(due)} disabled></input>
-            <br/>
-            <label for="Without">Without Due</label>
-            <input type='text' value={noDue - cashDisc(noDue)} disabled></input>
-            <h2>Payment</h2>
-            <select id="dropdown" name="dropdown" onChange={handlePaymentOptionChange} value={selectedPaymentOption}>
+            <div>Without Due : {due - cashDisc(due)} </div>
+            <div>With Due : {noDue - cashDisc(noDue)} </div>
+          </div>
+          <Line/>
+          <div className={styles.payment}>
+            <div className={styles.paySelect}>
+            <>Payment : </>
+            <select id="dropdown" className={styles.dropdown} onChange={handlePaymentOptionChange} value={selectedPaymentOption}>
                 <option value="full">FULL</option>
                 <option value="partial">PARTIAL</option>
                 <option value="none">NONE</option>
             </select>
             {renderPartialPaymentTextBox()}
+          </div>
+          </div>
+          <div className={styles.subBtn}>
             <button className={styles.btn} >SUBMIT</button>
-            
+          </div>
         </div>
     </form>
   )
