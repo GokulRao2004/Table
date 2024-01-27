@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import styles from './Table.module.css';
 import data1 from './data1.json';
 import data from './data.json';
@@ -7,10 +8,40 @@ import {Modal} from '../Modal/Modal'
 import { getImageUrl } from '../../utils';
 import { Line } from '../Line/Line';
 
+const fetchJsonData = async (file) => {
+  try {
+    const jsonData = await import(`./${file}`);
+    return jsonData.billItems;
+  } catch (error) {
+    console.error(`Error fetching JSON data for ${file}:`, error);
+    return null;
+  }
+};
+
+const getBillDetails = (url) => {
+  const isEditUrl = url.includes('/data/edit');
+  const jsonFile = isEditUrl ? 'data.json' : 'data1.json';
+
+  return fetchJsonData(jsonFile);
+};
+
 export const Table = () => {
     const [prods,setProds] = useState(data.billItems);
     const [rProds, setRProds] = useState(data1);
     const [modalOpen, setmodalOpen] = useState(false);
+
+    const location = useLocation();
+  const billDetails = getBillDetails(location.pathname);
+
+  useEffect(() => {
+    if (billDetails !== null) {
+      setProds(billDetails);
+    } else {
+      // Handle error, show a message, redirect, etc.
+      console.error('Bill details not found.');
+    }
+  }, [billDetails]);
+    
     
 
     const handleCheckboxChange = (productId) => {
