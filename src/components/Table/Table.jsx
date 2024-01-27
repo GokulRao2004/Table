@@ -68,6 +68,9 @@ export const Table = () => {
       return totalWithDue - totalFromReturns;
     };
     
+    function roundToTwoDecimalPlaces(number) {
+      return parseFloat(number).toFixed(2);
+    }
  
 
  //FUNCTIONS FOR TABLE 2
@@ -154,7 +157,7 @@ export const Table = () => {
                             </td>
                             <td className={styles.cb}><input type="checkbox" checked={prod.due} onChange={() => handleCheckboxChange(prod.id)} /> </td>
                             <td className={styles.rate}>{prod.rate}</td>
-                            <td className={styles.total}> {Math.round( prod.quantity* prod.rate* 100) / 100} </td>
+                            <td className={styles.total}> {roundToTwoDecimalPlaces(prod.quantity* prod.rate)} </td>
                         </tr>
                     ))
                 }
@@ -194,7 +197,7 @@ export const Table = () => {
                 <button className={styles.increment} onClick={() => handleIncrement1(prod.id)}>+</button>
               </td>
               <td className={styles.rate}>{prod.rate}</td>
-              <td className={styles.total}> {Math.round(prod.quantity * prod.rate * 100)/100}</td>
+              <td className={styles.total}> {roundToTwoDecimalPlaces(prod.quantity * prod.rate)}</td>
               <td className={styles.delete}>
                   <button className={styles.deletebtn} onClick={() => handleDelete(prod.id)}><img className={styles.deleteImg} src={getImageUrl('delete.png')}/></button>
                 </td>

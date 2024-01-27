@@ -1,0 +1,47 @@
+
+.file-upload-box {
+    width: 50%;
+    height: 50vh;
+    margin: auto;
+    margin-top: 10%;
+    border: 2px dashed #aaa;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+   
+  }
+  
+  .file-upload-box.dragging {
+    border-color: #3498db;
+  }
+  
+  /* Optional: Style for the selected file */
+  .file-upload-box p {
+    margin: 10px 0;
+  }
+  
+  /* Optional: Style for the "Select File" button */
+  .file-upload-box button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .file-upload-box button:hover {
+    background-color: #2980b9;
+  }
+  button{
+    margin-top: 10px;
+  }
+
+  @media only screen and (max-width: 767px) {
+    .file-upload-box {
+        width: 90%;
+    }
+  }

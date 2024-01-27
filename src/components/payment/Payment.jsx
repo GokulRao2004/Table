@@ -37,6 +37,9 @@ export const Payment = ({noDue,due}) => {
     }
     return null;
   };
+  function roundToTwoDecimalPlaces(number) {
+    return parseFloat(number).toFixed(2);
+  }
 
   return (
     <form>
@@ -57,8 +60,8 @@ export const Payment = ({noDue,due}) => {
           </div> <Line/>
           <div className={styles.amount}>
             <h2>Total Amount</h2>
-            <div>Without Due : {due - cashDisc(due)} </div>
-            <div>With Due : {noDue - cashDisc(noDue)} </div>
+            <div>Without Due : {roundToTwoDecimalPlaces(due - cashDisc(due))} </div>
+            <div>With Due : {roundToTwoDecimalPlaces(noDue - cashDisc(noDue))} </div>
           </div>
           <Line/>
           <div className={styles.payment}>
