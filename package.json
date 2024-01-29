@@ -19,7 +19,8 @@
     "react-router-dom": "^6.21.3",
     "react-table": "^7.8.0",
     "react-virtualized": "^9.22.5",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.8",
+    "vite-plugin-ssr": "^0.4.142"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
@@ -29,6 +30,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "serve": "^14.2.1",
     "vite": "^5.0.8"
   }
 }
