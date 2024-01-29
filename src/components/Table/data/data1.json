@@ -1,84 +1,103 @@
 {
-  "billItems":
-  [
-
+    "billItems":
+    [
       {
         "id": 1,
         "product": "Product A A very big description for multi line",
         "quantity": 5,
         "due": false,
-        "rate": 2599
+        "rate": 25.99,
+        "cgst": 2.5,
+        "sgst": 2.5
       },
       {
         "id": 2,
         "product": "Product B A very big description for multi line",
         "quantity": 10,
         "due": false,
-        "rate": 12.50
+        "rate": 12.50,
+        "cgst": 1.5,
+        "sgst": 1.5
       },
       {
         "id": 3,
         "product": "Product C A very big description for multi line",
         "quantity": 2,
         "due": false,
-        "rate": 230075.05
+        "rate": 230075.05,
+        "cgst": 12.0,
+        "sgst": 12.0
       },
       {
         "id": 4,
         "product": "Product D A very big description for multi line",
         "quantity": 8,
         "due": false,
-        "rate": 19.99
+        "rate": 19.99,
+        "cgst": 1.99,
+        "sgst": 1.99
       },
       {
         "id": 5,
         "product": "Product E A very big description for multi line",
         "quantity": 15,
         "due": false,
-        "rate": 8.95
+        "rate": 8.95,
+        "cgst": 0.89,
+        "sgst": 0.89
       },
       {
         "id": 6,
         "product": "Product F A very big description for multi line",
         "quantity": 3,
         "due": false,
-        "rate": 33.25
+        "rate": 33.25,
+        "cgst": 3.0,
+        "sgst": 3.0
       },
       {
         "id": 7,
         "product": "Product G A very big description for multi line",
         "quantity": 7,
         "due": false,
-        "rate": 14.75
+        "rate": 14.75,
+        "cgst": 1.47,
+        "sgst": 1.47
       },
       {
         "id": 8,
         "product": "Product H A very big description for multi line",
         "quantity": 12,
         "due": false,
-        "rate": 9.99
+        "rate": 9.99,
+        "cgst": 0.99,
+        "sgst": 0.99
       },
       {
         "id": 9,
         "product": "Product I A very big description for multi line",
         "quantity": 4,
         "due": false,
-        "rate": 28.50
+        "rate": 28.50,
+        "cgst": 2.85,
+        "sgst": 2.85
       },
       {
         "id": 10,
         "product": "Product J A very big description for multi line",
         "quantity": 6,
         "due": false,
-        "rate": 17.95
+        "rate": 17.95,
+        "cgst": 1.79,
+        "sgst": 1.79
       }
     ],
-
-  "clientDetails":
-    {
-      "name":"Client A",
-      "Bill No" : "#223123",
-      "Bill Date" : "12/11/2024"
-  }
   
-  }
+    "clientDetails":
+      {
+        "name":"Client A",
+        "Bill No" : "#223123",
+        "Bill Date" : "12/11/2024"
+    }
+    
+    }
