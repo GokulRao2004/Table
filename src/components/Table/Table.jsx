@@ -1,18 +1,110 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
+import {  useParams} from 'react-router-dom';
 import styles from './Table.module.css';
-import data1 from './data1.json';
-import data from './data.json';
+// import data1 from './data1.json';
+// import data from './data.json';
 import {Payment} from '../payment/Payment'
 import {Modal} from '../Modal/Modal'
 import { getImageUrl } from '../../utils';
 import { Line } from '../Line/Line';
+import  axios from 'axios'
 
 export const Table = () => {
-    const [prods,setProds] = useState(data.billItems);
-    const [rProds, setRProds] = useState(data1);
-    const [modalOpen, setmodalOpen] = useState(false);
-    
+ 
+  const { id } = useParams();
+  const [prods, setProds] = useState([]);
+  const [rProds, setRProds] = useState([]);
+  const [modalOpen, setmodalOpen] = useState(false);
+  const [cData,setCData] = useState([]);
 
+  const getTableData = (clientData, table1Data, table2Data) => {
+    const transformedTable1Data = table1Data.map((row) => ({
+      id: row.id,
+      product: row.product,
+      quantity: row.quantity,
+      due: row.due,
+      rate: row.rate,
+      cgst:row.cgst,
+      sgst:row.sgst,
+      total: row.quantity * row.rate,
+    }));
+  
+    const transformedTable2Data = table2Data.map((row) => ({
+      id: row.id,
+      product: row.product,
+      quantity: row.quantity,
+      rate: row.rate,
+      total: row.quantity * row.rate,
+    }));
+  
+    return JSON.stringify({
+      clientDetails: clientData,
+      table1Data: transformedTable1Data,
+      table2Data: transformedTable2Data,
+    }, null, 2);
+  };
+
+
+  // const saveJSONToFile = (jsonData, fileName) => {
+  //   const blob = new Blob([jsonData], { type: 'application/json' });
+  
+  //   const a = document.createElement('a');
+  //   a.href = URL.createObjectURL(blob);
+  //   a.download = fileName;
+  //   document.body.appendChild(a);
+  //   a.click();
+  //   document.body.removeChild(a);
+  //   URL.revokeObjectURL(a.href);
+  // };
+
+  const sendJSONToAPI = (jsonData, apiUrl) => {
+    axios.post(apiUrl, jsonData, {
+      headers: {
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+      },
+    })
+    .then(response => {
+      console.log('API Response:', response.data);
+    })
+    .catch(error => {
+      console.error('API Error:', error);
+    });
+  };
+  
+
+  const apiUrl = 'https://webhook.site/42b076f3-e707-4d25-8aea-6cc1a02e6446';
+ 
+
+
+  const handleSaveButtonClick = () => {
+    const tableDataJSON = getTableData(cData, prods, rProds);
+    // saveJSONToFile(tableDataJSON, 'EditedBill.json'); 
+    sendJSONToAPI(tableDataJSON, apiUrl);
+  };
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+        const response = await import(`./data/${id}.json`);
+        setCData(response.default.clientDetails);
+        setProds(response.default.billItems);
+        
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+ }, []);
+
+
+
+console.log(cData)
+
+  
     const handleCheckboxChange = (productId) => {
         setProds((prevProducts) =>
           prevProducts.map((product) =>
@@ -108,8 +200,10 @@ export const Table = () => {
       );
     };
 
+
   return (
-  <div >
+
+   <div >
     <header className={styles.head}>
       <div>
       <h2>S L N & CO</h2>
@@ -117,10 +211,10 @@ export const Table = () => {
       </div>
       <div className={styles.client}>
         <div>
-          <p>Billed To: {data.clientDetails.name}</p>
-          <p>{data.clientDetails['Bill No']}</p>
+          <p>Billed To: {cData.name}</p>
+          <p>{cData['Bill No']}</p>
         </div>
-        <p className={styles.date}>Date : {data.clientDetails['Bill Date']}</p>
+        <p className={styles.date}>Date : {cData['Bill Date']}</p>
       </div>
       
     </header>
@@ -136,6 +230,7 @@ export const Table = () => {
                     <th>DUE</th>
                     <th>RATE</th>
                     <th>TOTAL</th>
+                    <th>AFTER TAX</th>
                     
                 </tr>
             </thead>
@@ -157,14 +252,14 @@ export const Table = () => {
                             </td>
                             <td className={styles.cb}><input type="checkbox" checked={prod.due} onChange={() => handleCheckboxChange(prod.id)} /> </td>
                             <td className={styles.rate}>{prod.rate}</td>
-                            <td className={styles.total}> {roundToTwoDecimalPlaces(prod.quantity* prod.rate)} </td>
+                            <td className={styles.total}> {roundToTwoDecimalPlaces((prod.quantity* prod.rate))} </td>
+                            <td className={styles.total}> {roundToTwoDecimalPlaces((prod.quantity* prod.rate) + ((prod.quantity* prod.rate) * ((prod.cgst + prod.sgst)/100)))} </td>
                         </tr>
                     ))
                 }
             </tbody>
         </table>
-        {/* <div>{calculateTotalDue()}</div>
-        <div>{calculateTotalNoDue()}</div> */}
+
         
         </div>
         <div><Line/>
@@ -219,6 +314,7 @@ export const Table = () => {
         </div>
         < Line />
         <Payment noDue = {calculateTotalNoDue()} due={calculateTotalDue()} />
+        <button onClick={handleSaveButtonClick}>Save JSON</button>
     
     </div>
   )
