@@ -48,7 +48,7 @@ export const Upload = () => {
       //   });
 
       axios
-        .post('https://sumukhaAi.pythonanywhere.com/api/upload/', formData, {
+        .post('http://localhost:8085/process_excel', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },

@@ -88,7 +88,7 @@ export const Table = () => {
 
     const fetchData = async () => {
       try {
-        const response = await import(`./data/${id}.json`);
+        const response = await fetch(`http://localhost:8085/get_bill/${id}`)
         setCData(response.default.clientDetails);
         setProds(response.default.billItems);
         
@@ -212,9 +212,9 @@ console.log(cData)
       <div className={styles.client}>
         <div>
           <p>Billed To: {cData.name}</p>
-          <p>{cData['Bill No']}</p>
+          <p>{cData.Bill_No}</p>
         </div>
-        <p className={styles.date}>Date : {cData['Bill Date']}</p>
+        <p className={styles.date}>Date : {cData.Bill_Date}</p>
       </div>
       
     </header>

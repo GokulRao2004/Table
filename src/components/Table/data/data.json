@@ -96,8 +96,8 @@
   "clientDetails":
     {
       "name":"Client B",
-      "Bill No" : "#qweqwe",
-      "Bill Date" : "12/12/2024"
+      "Bill_No" : "#qweqwe",
+      "Bill_Date" : "12/12/2024"
   }
   
   }
