@@ -1,18 +1,43 @@
-
+.container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  background: #FFC809;
+  overflow: auto;
+}
+.title{
+  font-size: 50px;
+  padding-left: 10px;
+}
+.upload{
+  margin: auto;
+  padding: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+  font-weight: 700;
+  font-size: 30px;
+}
 .file-upload-box {
-    width: 50%;
-    height: 50vh;
-    margin: auto;
-    margin-top: 10%;
-    border: 2px dashed #aaa;
-    border-radius: 50px;
     display: flex;
     flex-direction: column;
+    width: 50%;
+    height: 65%;
+    margin:auto;
+    margin-top: 30px;
+    border: 2px dashed #323232;
+    border-radius: 50px;
+    
     align-items: center;
     justify-content: center;
     font-size: 16px;
     cursor: pointer;
+    background: #fff;
    
+  }
+  .uploadText{
+    font-size: 20px;
+    color: #323232;
   }
   
   .file-upload-box.dragging {
@@ -27,17 +52,26 @@
   /* Optional: Style for the "Select File" button */
   .file-upload-box button {
     padding: 10px 20px;
-    background-color: #3498db;
-    color: #fff;
+    height: 70px;
+    width:300px;
+    background-color: #FFC809;
+    color: #2d2d2d;
     border: none;
+    border-radius: 20px;
     cursor: pointer;
+    font-size: 24px;
+    margin-top: 20px;
+    
   }
   
   .file-upload-box button:hover {
-    background-color: #2980b9;
+    background-color: #b49112;
   }
   button{
     margin-top: 10px;
+  }
+  .uploadImg{
+    width: 150px
   }
 
   @media only screen and (max-width: 767px) {

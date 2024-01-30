@@ -103,6 +103,10 @@ th{
   padding-right: 1px;
 }
 .increment, .decrement{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
   text-decoration: none;
   border: none;
   background-color: transparent;
@@ -110,17 +114,19 @@ th{
   padding-left: 2px;
   padding-right: 2px;
 }
-.decrement{
-  font-size: 30px;
-}
+
 
 .input{
+  display: flex;
+  flex-direction: row;
+  padding-top: 9px;
+  font-size: 18px;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-width: 4ch; /* Set the width to approximately 10 characters */
+width: 5ch; /* Set the width to approximately 10 characters */
 background: transparent;
--webkit-appearance: none; /* Safari and Chrome */
--moz-appearance: none; /* Firefox */
-appearance: none; /* Standard */
+
 border: none;
 }
 

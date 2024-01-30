@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import './upload.css'
 import axios from 'axios'
+import { getImageUrl } from '../utils';
 
 export const Upload = () => {
   const [isDragging, setIsDragging] = useState(false);
@@ -34,19 +35,6 @@ export const Upload = () => {
       const formData = new FormData();
       formData.append('file', selectedFile);
 
-      // fetch('https://ada6-101-0-63-107.ngrok-free.app/api/upload', {
-      //   method: 'POST',
-      //   body: formData,
-      // })
-      //   .then(response => response.json())
-      //   .then(data => {
-      //     console.log('Upload successful:', data);
-      //     // Optionally, you can perform actions based on the API response
-      //   })
-      //   .catch(error => {
-      //     console.error('Error uploading file:', error);
-      //   });
-
       axios
         .post('http://localhost:8085/process_excel', formData, {
           headers: {
@@ -73,23 +61,29 @@ export const Upload = () => {
   };
 
   return (
+    <div className='container'>
+      <h1 className='title'>SLN & CO</h1>
+      <div className='upload'>Upload Files Here </div>
+      <div
+        className={`file-upload-box ${isDragging ? 'dragging' : ''}`}
+        onDragEnter={handleDragEnter}
+        onDragOver={handleDragEnter}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+      >
+        
+        <img src={getImageUrl('cloud-computing.png')} className='uploadImg'></img>
+        <input
+          type="file"
+          onChange={handleFileChange}
+          style={{ display: 'none' }}
+          ref={(fileInput) => (fileInputRef = fileInput)}
+        />
+        <p className='uploadText'>{selectedFile ? `Selected File: ${selectedFile.name}` : 'Only .xlsx files are supported'}</p>
 
-    <div
-      className={`file-upload-box ${isDragging ? 'dragging' : ''}`}
-      onDragEnter={handleDragEnter}
-      onDragOver={handleDragEnter}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
-    >
-      <input
-        type="file"
-        onChange={handleFileChange}
-        style={{ display: 'none' }}
-        ref={(fileInput) => (fileInputRef = fileInput)}
-      />
-      <p>{selectedFile ? `Selected File: ${selectedFile.name}` : 'Drag and drop a file here or click to select'}</p>
-      <button onClick={() => fileInputRef.click()}>Select File</button>
-      <button onClick={handleUpload}>Upload</button>
+        <button onClick={() => fileInputRef.click()}>Select File</button>
+        <button onClick={handleUpload}>Upload</button>
+      </div>
     </div>
   );
 };

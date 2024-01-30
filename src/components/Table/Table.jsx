@@ -88,7 +88,8 @@ export const Table = () => {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:8085/get_bill/${id}`)
+        // const response = await fetch(`http://localhost:8085/get_bill/${id}`)
+        const response = await import('./data/data.json')
         setCData(response.default.clientDetails);
         setProds(response.default.billItems);
         
@@ -240,6 +241,7 @@ console.log(cData)
                         <tr key={prods.id}>
                             <td className={styles.expand}>{prod.product}</td>
                             <td className={styles.quantity}>
+                         
                                     <button className={styles.decrement} onClick={() => handleDecrement(prod.id)}>-</button>
                                     <input
                                       className={styles.input}
@@ -248,7 +250,7 @@ console.log(cData)
                                         min={1}
                                         onChange={(e) => handleQuantityChange(prod.id, parseInt(e.target.value, 10) || 0)}
                                       />
-                                    <button className={styles.increment}onClick={() => handleIncrement(prod.id)}>+</button>
+                                   <button className={styles.increment}onClick={() => handleIncrement(prod.id)}>+</button>
                             </td>
                             <td className={styles.cb}><input type="checkbox" checked={prod.due} onChange={() => handleCheckboxChange(prod.id)} /> </td>
                             <td className={styles.rate}>{prod.rate}</td>
