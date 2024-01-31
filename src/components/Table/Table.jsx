@@ -74,7 +74,7 @@ export const Table = () => {
   };
   
 
-  const apiUrl = 'https://webhook.site/42b076f3-e707-4d25-8aea-6cc1a02e6446';
+  const apiUrl = 'https://webhook.site/4e5975bb-b933-4bf0-b385-ae2b66e1f88e';
  
 
 
