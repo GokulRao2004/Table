@@ -89,7 +89,7 @@ export const Table = () => {
     const fetchData = async () => {
       try {
         // const response = await fetch(`http://localhost:8085/get_bill/${id}`)
-        const response = await import('./data/data.json')
+        const response = await axios.get(`http://localhost:8085/get_bill/${id}`)
         setCData(response.default.clientDetails);
         setProds(response.default.billItems);
         

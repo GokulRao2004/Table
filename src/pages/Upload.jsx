@@ -8,6 +8,7 @@ export const Upload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [showSuccessIcon, setShowSuccessIcon] = useState(false);
   var fileInputRef = useRef(null);
 
   const handleDragEnter = (e) => {
@@ -49,7 +50,7 @@ export const Upload = () => {
       formData.append('file', selectedFile);
   
       axios
-        .post('https://webhook.site/ba16d6fe-e366-4f56-a7ad-f73d5d776631', formData, {
+        .post('http://localhost:8085/process_excel', formData, {
           headers: {
             'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
           },
@@ -60,7 +61,7 @@ export const Upload = () => {
           
           if (response.status === 200) {
             setUploadSuccess(true);
-            setErrorMessage(`File ${selectedFile.name} uploaded successfully`)
+            setShowSuccessIcon(true);
           } 
           console.log(uploadSuccess);
           
@@ -68,8 +69,9 @@ export const Upload = () => {
         })
         .catch((error) => {
           console.error('Error uploading file', error);
-          setErrorMessage(`Error uploading file. Please try again.`);
+          setErrorMessage(`Error uploading file. Please try again after sometime.`);
           setUploadSuccess(false);
+          setShowSuccessIcon(false);
           // Handle error
         });
     } else {
@@ -83,6 +85,7 @@ export const Upload = () => {
     setUploadSuccess(false);
     setSelectedFile(null);
     setErrorMessage(null);
+    setShowSuccessIcon(false);
   };
 
   return (
@@ -96,6 +99,17 @@ export const Upload = () => {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
+        {uploadSuccess ? (
+  <>
+    <img src={getImageUrl('verification-on-cloud.png')} alt='success-icon' className="successIcon" />
+    <div className="success">File uploaded successfully</div>
+    <button className="success" onClick={handleReset}>Upload Another File</button>
+  </>
+) : (
+<>
+    {errorMessage && <img src={getImageUrl('errors.png')} alt='error-icon' className="errorIcon" />}
+    {!errorMessage && (
+      <>
         <img src={getImageUrl('cloud-computing.png')} className='uploadImg' alt='cloud-icon' />
         <input
           type="file"
@@ -103,18 +117,19 @@ export const Upload = () => {
           style={{ display: 'none' }}
           ref={(fileInput) => (fileInputRef = fileInput)}
         />
-        <p className={`uploadText ${errorMessage ? 'error' : ''}`}>
-          {errorMessage ? errorMessage : uploadSuccess ? 'File uploaded successfully!' : selectedFile ? `Selected File: ${selectedFile.name}` : 'Only .xlsx files are supported'}
-        </p>
-
-        {!uploadSuccess && (
-          <>
-            <button onClick={() => fileInputRef.click()}>Select File</button>
-            <button onClick={handleUpload}>Upload</button>
-          </>
-        )}
-
-        {uploadSuccess && <button onClick={handleReset}>Upload Another File</button>}
+      </>
+    )}
+    <p className={`uploadText ${errorMessage ? 'error' : ''}`}>
+      {errorMessage ? errorMessage : selectedFile ? `Selected File: ${selectedFile.name}` : 'Only .xlsx files are supported'}
+    </p>
+    {!uploadSuccess && (
+      <>
+        <button onClick={() => fileInputRef.click()}>Select File</button>
+        <button onClick={handleUpload}>Upload</button>
+      </>
+    )}
+  </>
+)}
       </div>
     </div>
   );

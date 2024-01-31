@@ -70,7 +70,7 @@
   button{
     margin-top: 10px;
   }
-  .uploadImg{
+  img{
     width: 150px
   }
 
@@ -78,4 +78,13 @@
     .file-upload-box {
         width: 90%;
     }
+  }
+
+  .uploadText.error {
+    color: #FF7070; /* error message color */
+  }
+
+  .success{
+    font-size: 20px;
+    color: #61DF65;
   }
