@@ -5,7 +5,7 @@ import { getImageUrl } from '../utils';
 
 export const Upload = () => {
   const [isDragging, setIsDragging] = useState(false);
-  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [showSuccessIcon, setShowSuccessIcon] = useState(false);
@@ -32,66 +32,74 @@ export const Upload = () => {
   const handleDrop = (e) => {
     e.preventDefault();
     setIsDragging(false);
-  
-    const files = e.dataTransfer.files;
-    handleFileSelection(files);
-  };
-  
-  const handleFileChange = (e) => {
-    const files = e.target.files;
-    handleFileSelection(files);
-  };
-  
 
-  const handleFileSelection = (files) => {
-    const validFiles = Array.from(files).filter((file) =>
-      file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    );
-  
-    setSelectedFiles(validFiles);
-    setErrorMessage(validFiles.length === 0 ? 'Please select one or more .xlsx files.' : null);
+    const file = e.dataTransfer.files[0];
+    handleFileSelection(file);
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    handleFileSelection(file);
+    if (fileInputRef.current) {
+        fileInputRef.current.value = null;
+      }
+  };
+
+  const handleFileSelection = (file) => {
+    if (file && file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+      setSelectedFile(file);
+      setErrorMessage(null);
+    } else {
+      setSelectedFile(null);
+      setErrorMessage(file ? 'Please select a .xlsx file.' : 'No file selected.');
+    }
   };
 
   const handleUpload = () => {
-    if (selectedFiles.length > 0) {
+    if (selectedFile) {
       const formData = new FormData();
-      selectedFiles.forEach((file, index) => {
-        formData.append(`file${index}`, file);
-      });
+      formData.append('file', selectedFile);
   
       axios
         .post('https://webhook.site/5855237e-7408-4f1f-a18f-efc470d57d1f', formData, {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
           },
         })
         .then((response) => {
           console.log('This is success msg');
           console.log(response.status);
-  
+          
           if (response.status === 200) {
             setUploadSuccess(true);
             setShowSuccessIcon(true);
-          }
+          } 
+          console.log(uploadSuccess);
+          
+          // Handle success
         })
         .catch((error) => {
-          console.error('Error uploading files', error);
-          setErrorMessage(`Error uploading files. Please try again after some time.`);
+          console.error('Error uploading file', error);
+          setErrorMessage(`Error uploading file. Please try again after sometime.`);
           setUploadSuccess(false);
           setShowSuccessIcon(false);
+          // Handle error
         });
     } else {
-      console.warn('No files selected for upload');
-      setErrorMessage('Please select one or more files for upload');
+      console.warn('No file selected for upload');
+      setErrorMessage('No file selected for upload');
     }
   };
   
 
   const handleReset = () => {
     setUploadSuccess(false);
-    setSelectedFiles(null);
+    setSelectedFile(null);
     setErrorMessage(null);
     setShowSuccessIcon(false);
+    if (fileInputRef.current) {
+        fileInputRef.current.value = null;
+      }
   };
 
   return (
@@ -121,13 +129,12 @@ export const Upload = () => {
           type="file"
           onChange={handleFileChange}
           style={{ display: 'none' }}
-          ref={captureFileInputRef}
-          multiple
+          ref={(ref) => captureFileInputRef(ref)}
         />
       </>
     )}
     <p className={`uploadText ${errorMessage ? 'error' : ''}`}>
-  {errorMessage ? errorMessage : selectedFiles.length > 0 ? `Selected Files: ${selectedFiles.map(file => file.name).join(', ')}` : 'Only .xlsx files are supported'}
+      {errorMessage ? errorMessage : selectedFile ? `Selected File: ${selectedFile.name}` : 'Only .xlsx files are supported'}
     </p>
     {!uploadSuccess && (
       <>
