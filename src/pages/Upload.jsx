@@ -89,9 +89,10 @@ export const Upload = () => {
 
   const handleReset = () => {
     setUploadSuccess(false);
-    setSelectedFiles(null);
+    setSelectedFiles(0);
     setErrorMessage(null);
     setShowSuccessIcon(false);
+
   };
 
   return (
@@ -114,9 +115,8 @@ export const Upload = () => {
 ) : (
 <>
     {errorMessage && <img src={getImageUrl('errors.png')} alt='error-icon' className="errorIcon" />}
-    {!errorMessage && (
+    {!errorMessage && <img src={getImageUrl('cloud-computing.png')} className='uploadImg' alt='cloud-icon' />}
       <>
-        <img src={getImageUrl('cloud-computing.png')} className='uploadImg' alt='cloud-icon' />
         <input
           type="file"
           onChange={handleFileChange}
@@ -125,7 +125,6 @@ export const Upload = () => {
           multiple
         />
       </>
-    )}
     <p className={`uploadText ${errorMessage ? 'error' : ''}`}>
   {errorMessage ? errorMessage : selectedFiles.length > 0 ? `Selected Files: ${selectedFiles.map(file => file.name).join(', ')}` : 'Only .xlsx files are supported'}
     </p>
