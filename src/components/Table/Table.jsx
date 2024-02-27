@@ -1,13 +1,27 @@
-import React, { useState, useEffect} from 'react';
-import {  useParams} from 'react-router-dom';
+import React, { useState } from 'react';
+import axios from 'axios';
 import styles from './Table.module.css';
-// import data1 from './data1.json';
-// import data from './data.json';
-import {Payment} from '../payment/Payment'
-import {Modal} from '../Modal/Modal'
+import { useParams } from 'react-router-dom';
+import { Payment } from '../payment/Payment';
+import { Modal } from '../Modal/Modal';
 import { getImageUrl } from '../../utils';
 import { Line } from '../Line/Line';
-import  axios from 'axios'
+import { handleCheckboxChange } from '../../Functions/Table1/handleCheckBoxChange';
+import { handleIncrement } from '../../Functions/Table1/handleIncrement';
+import { handleDecrement } from '../../Functions/Table1/handleDecrement';
+import { handleQuantityChange } from '../../Functions/Table1/handleQuantityChange';
+import { handleDelete } from '../../Functions/Table2/handleDelete';
+import { handleSubmit } from '../../Functions/Table2/handleSubmit'
+import { handleIncrement1 } from '../../Functions/Table2/handleIncreament1';
+import { handleDecrement1 } from '../../Functions/Table2/handleDecrement1';
+import { handleQuantityChange1 } from '../../Functions/Table2/handleQuantityChange1';
+import { handleProductChange } from '../../Functions/Table2/handleProductChange';
+import { calculateTotalWithTax } from '../../Functions/Calculations/totalWithTax';
+import { roundToTwoDecimalPlaces } from '../../Functions/Calculations/roundOff';
+import { calculateTotalDue } from '../../Functions/Calculations/totalDue';
+import { calculateTotalNoDue } from '../../Functions/Calculations/totalNoDue';
+import { calculateDiscountedTotal } from '../../Functions/Calculations/discountedTotal';
+import { fetchData }from '../../Functions/FetchData/fetchData'
 
 export const Table = () => {
  
@@ -17,6 +31,27 @@ export const Table = () => {
   const [modalOpen, setmodalOpen] = useState(false);
   const [cData,setCData] = useState([]);
 
+  fetchData(setCData,setProds,setRProds,id);
+
+  const sendJSONToAPI = (jsonData, apiUrl) => {
+    axios.post(apiUrl, jsonData, {
+      headers: {
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+      },
+    })
+    .then(response => {
+      console.log('API Response:', response.data);
+    })
+    .catch(error => {
+      console.error('API Error:', error);
+    });
+  };
+  const handleSaveButtonClick = () => {
+    const tableDataJSON = getTableData( prods, rProds); 
+    sendJSONToAPI(tableDataJSON, apiUrl);
+  };
   const getTableData = (clientData, table1Data, table2Data) => {
     const transformedTable1Data = table1Data.map((row) => ({
       id: row.id,
@@ -39,169 +74,11 @@ export const Table = () => {
   
     return JSON.stringify({
       clientDetails: clientData,
-      table1Data: transformedTable1Data,
-      table2Data: transformedTable2Data,
+      billItems: transformedTable1Data,
+      returns: transformedTable2Data,
     }, null, 2);
   };
-
-
-  // const saveJSONToFile = (jsonData, fileName) => {
-  //   const blob = new Blob([jsonData], { type: 'application/json' });
-  
-  //   const a = document.createElement('a');
-  //   a.href = URL.createObjectURL(blob);
-  //   a.download = fileName;
-  //   document.body.appendChild(a);
-  //   a.click();
-  //   document.body.removeChild(a);
-  //   URL.revokeObjectURL(a.href);
-  // };
-
-  const sendJSONToAPI = (jsonData, apiUrl) => {
-    axios.post(apiUrl, jsonData, {
-      headers: {
-        'Content-Type': 'application/json',
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
-      },
-    })
-    .then(response => {
-      console.log('API Response:', response.data);
-    })
-    .catch(error => {
-      console.error('API Error:', error);
-    });
-  };
-  
-
-  const apiUrl = 'https://webhook.site/4e5975bb-b933-4bf0-b385-ae2b66e1f88e';
- 
-
-
-  const handleSaveButtonClick = () => {
-    const tableDataJSON = getTableData(cData, prods, rProds);
-    // saveJSONToFile(tableDataJSON, 'EditedBill.json'); 
-    sendJSONToAPI(tableDataJSON, apiUrl);
-  };
-
-  useEffect(() => {
-
-    const fetchData = async () => {
-      try {
-        // const response = await fetch(`http://localhost:8085/get_bill/${id}`)
-        const response = await axios.get(`http://localhost:8085/get_bill/${id}`)
-        setCData(response.default.clientDetails);
-        setProds(response.default.billItems);
-        
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
- }, []);
-
-
-
-console.log(cData)
-
-  
-    const handleCheckboxChange = (productId) => {
-        setProds((prevProducts) =>
-          prevProducts.map((product) =>
-            product.id === productId ? { ...product, due: !product.due } : product
-          )
-        );
-      };
-      const handleIncrement = (productId) => {
-        setProds((prevProducts) =>
-          prevProducts.map((product) =>
-            product.id === productId ? { ...product, quantity: product.quantity + 1 } : product
-          )
-        );
-    };
-
-    const handleDecrement = (productId) => {
-        setProds((prevProducts) =>
-          prevProducts.map((product) =>
-            product.id === productId && product.quantity > 0 ? { ...product, quantity: product.quantity - 1 } : product
-          )
-        );
-    };
-    const handleQuantityChange = (productId, newQuantity) => {
-      setProds((prevProducts) =>
-        prevProducts.map((product) =>
-          product.id === productId ? { ...product, quantity: newQuantity } : product
-        )
-      );
-    };
-
-    const calculateTotalNoDue = () => {
-      // Calculate the total without due by subtracting the amount from the returns table
-      const totalWithoutDue = prods.reduce((total, product) => {
-        return total + product.quantity * product.rate;
-      }, 0);
-    
-      const totalFromReturns = rProds.reduce((total, product) => {
-        return total + product.quantity * product.rate;
-      }, 0);
-    
-      return totalWithoutDue - totalFromReturns;
-    };
-    
-    const calculateTotalDue = () => {
-      // Calculate the total with due considering only the amount from the products table
-      const totalWithDue = prods.reduce((total, product) => {
-        return Math.round((total + (product.due ? 0 : product.quantity * product.rate))*100)/100;
-      }, 0);
-      const totalFromReturns = rProds.reduce((total, product) => {
-        return total + product.quantity * product.rate;
-      }, 0);
-    
-      return totalWithDue - totalFromReturns;
-    };
-    
-    function roundToTwoDecimalPlaces(number) {
-      return parseFloat(number).toFixed(2);
-    }
- 
-
- //FUNCTIONS FOR TABLE 2
-    const handleDelete = (productId) => {
-      setRProds((prevProducts) =>
-        prevProducts.filter((product) => product.id !== productId)
-      );
-    };
-
-    const handleSubmit = (newRow) =>{
-      setRProds([...rProds, newRow])
-    }
-
-    const handleIncrement1 = (productId) => {
-      setRProds((prevProducts) =>
-        prevProducts.map((product) =>
-        product.id === productId && product.quantity > 0 ? { ...product, quantity: parseInt(product.quantity) + 1 } : product
-        )
-      );
-    };
-  
-    const handleDecrement1 = (productId) => {
-      setRProds((prevProducts) =>
-        prevProducts.map((product) =>
-          product.id === productId && product.quantity > 0 ? { ...product, quantity: product.quantity - 1 } : product
-        )
-      );
-    };
-  
-    const handleQuantityChange1 = (productId, newQuantity) => {
-      setRProds((prevProducts) =>
-        prevProducts.map((product) =>
-          product.id === productId ? { ...product, quantity: newQuantity } : product
-        )
-      );
-    };
-
-
+  const apiUrl = 'https://webhook.site/9d89d4ed-1682-438f-8b3c-4c355ca6da58';
   return (
 
    <div >
@@ -213,7 +90,7 @@ console.log(cData)
       <div className={styles.client}>
         <div>
           <p>Billed To: {cData.name}</p>
-          <p>{cData.Bill_No}</p>
+          <p>Invoice Number : {cData.Bill_No}</p>
         </div>
         <p className={styles.date}>Date : {cData.Bill_Date}</p>
       </div>
@@ -230,8 +107,8 @@ console.log(cData)
                     <th>QTY</th>
                     <th>DUE</th>
                     <th>RATE</th>
-                    <th>TOTAL</th>
-                    <th>AFTER TAX</th>
+                    <th>AMOUNT</th>
+                    <th>SUB TOTAL</th>
                     
                 </tr>
             </thead>
@@ -254,8 +131,8 @@ console.log(cData)
                             </td>
                             <td className={styles.cb}><input type="checkbox" checked={prod.due} onChange={() => handleCheckboxChange(prod.id)} /> </td>
                             <td className={styles.rate}>{prod.rate}</td>
-                            <td className={styles.total}> {roundToTwoDecimalPlaces((prod.quantity* prod.rate))} </td>
-                            <td className={styles.total}> {roundToTwoDecimalPlaces((prod.quantity* prod.rate) + ((prod.quantity* prod.rate) * ((prod.cgst + prod.sgst)/100)))} </td>
+                            <td className={styles.total}>{calculateDiscountedTotal(prod)}</td>
+                            <td className={styles.total}>{calculateTotalWithTax(prod)}</td>
                         </tr>
                     ))
                 }
@@ -281,7 +158,14 @@ console.log(cData)
         <tbody> 
           {rProds.map((prod) => (
             <tr key={prod.id}>
-              <td className={styles.expand}>{prod.product}</td>
+              <td className={styles.expand} >
+                <input 
+                className={styles.product}  
+                type='text'
+                value={prod.product}
+                onChange={(e) => handleProductChange(prod.id, e.target.value)}
+              />
+              </td>
               <td className={styles.quantity}>
                 <button className={styles.decrement} onClick={() => handleDecrement1(prod.id)}>-</button>
                   <input
@@ -309,13 +193,14 @@ console.log(cData)
      <Modal 
         closeModal = {()=>{
           setmodalOpen(false);
+          setSelectedProduct(null);
         }}
         onSubmit = {handleSubmit}
       
      />}
         </div>
         < Line />
-        <Payment noDue = {calculateTotalNoDue()} due={calculateTotalDue()} />
+        <Payment noDue = {calculateTotalNoDue(prods,rProds)} due={calculateTotalDue(prods,rProds)} />
         <button onClick={handleSaveButtonClick}>Save JSON</button>
     
     </div>

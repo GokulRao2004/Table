@@ -1,4 +1,6 @@
 @import url(../../vars.css);
+
+
 .container{
   width: 100%;
   overflow-x:auto;
@@ -57,12 +59,15 @@ table{
 }
 
 td, th {
-  border: 1px solid #828282;
-  /* border-top: none;
-  border-bottom: none; */
   text-align: left;
   padding: 8px;
   text-align: left;
+}
+td:not(.quantity) {
+  border: 1px solid #828282;
+}
+th{
+  border: 1px solid #828282;
 }
 
 .expand{
@@ -91,17 +96,21 @@ th{
   text-align: center;
 }
 
+
+
 .quantity{
   display: flex;
-  flex-direction: row;
   justify-content: center;
-  align-items: center;
-  border-top: 0px ;
-  border-left: 0px ;
-  border-right: 0px ;
+  text-align: center;
   padding-left: 1px;
   padding-right: 1px;
+  
+  border-top: 0.6px solid #828282;
+ 
 }
+
+
+
 .increment, .decrement{
   display: flex;
   flex-direction: column;
@@ -134,19 +143,27 @@ border: none;
 width: 20px;
 }
 
+.delete{
+  text-align: center;
+}
 .deletebtn{
 text-decoration: none;
 background: none;
 border: none;
 }
 
-.delete{
-  display: flex;
-  justify-content: center;
-  align-content: center;
-}
+
 
 .tot{
   width: 9ch; 
 border: none;
 }
+
+.product{
+  border:none;
+  width: 100%;
+  text-decoration: none;
+  font-size: 16px;
+  overflow-wrap: break-word;
+}
+
